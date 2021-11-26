@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PetecaAPIImprovement1
+namespace PetecaAPIV2
 {
     public class Peteca
     {

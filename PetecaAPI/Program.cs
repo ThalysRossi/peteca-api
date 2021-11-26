@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PetecaAPI
+namespace PetecaAPIV1
 {
     class Program
     {

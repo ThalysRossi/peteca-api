@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PetecaAPIFinalForm
+namespace PetecaAPIV3
 {
     public class Peteca
     {
@@ -31,7 +31,7 @@ namespace PetecaAPIFinalForm
         {
             public Peteca Create(int idade, int pena)
             {
-                if(pena < 3)
+                if(pena < 3 || pena > 12)
                 {
                     return null;
                 };

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PetecaAPIFinalForm
+namespace PetecaAPIV3
 {
     public interface IPetecaService
     {

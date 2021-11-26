@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PetecaAPI
+namespace PetecaAPIV1
 {
     public class PetecaService
     {
-        public bool Save(int idade)
+        public bool CreatePeteca(int idade)
         {
+            PetecaRepository repo = new PetecaRepository();
+            repo.Save(idade);
+
             return true;
         }
         public bool IsPetecaVeia(Guid id)

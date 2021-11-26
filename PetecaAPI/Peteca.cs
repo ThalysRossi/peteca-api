@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace PetecaAPI
+namespace PetecaAPIV1
 {
     public class Peteca
     {
         public Guid Id { get; set; }
-        public int Idade { get; internal set; }
+        public int Idade { get; set; }
     }
 }

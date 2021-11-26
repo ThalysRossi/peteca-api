@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PetecaAPIImprovement1;
+using PetecaAPIV2;
 using System;
 using System.Collections.Generic;
 
@@ -138,44 +138,43 @@ namespace PetecaAPITests
         {
             //Arrange
             ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
-            var id = Guid.NewGuid();
             _repoMock
                 .Setup(r => r.FindPetecaByIdade(50, null))
                 .Returns(new List<Peteca>()
                 {
                     new Peteca()
                     {
-                        Id = id,
+                        Id = Guid.NewGuid(),
                         Idade = 420,
                         Pena = 5
                     },
                     new Peteca()
                     {
-                        Id = id,
+                        Id = Guid.NewGuid(),
                         Idade = 69,
                         Pena = 5
                     },
                     new Peteca()
                     {
-                        Id = id,
+                        Id = Guid.NewGuid(),
                         Idade = 69,
                         Pena = 7
                     },
                     new Peteca()
                     {
-                        Id = id,
+                        Id = Guid.NewGuid(),
                         Idade = 69,
                         Pena = 10
                     },
                     new Peteca()
                     {
-                        Id = id,
+                        Id = Guid.NewGuid(),
                         Idade = 72,
                         Pena = 5
                     },
                     new Peteca()
                     {
-                        Id = id,
+                        Id = Guid.NewGuid(),
                         Idade = 25,
                         Pena = 5
                     },

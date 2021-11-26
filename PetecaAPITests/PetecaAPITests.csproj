@@ -16,8 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PetecaAPIFinalForm\PetecaAPI-V3.csproj" />
-    <ProjectReference Include="..\PetecaAPIImprovement1\PetecaAPI-V.2.csproj" />
+    <ProjectReference Include="..\PetecaAPIFinalForm\PetecaAPIV3.csproj" />
+    <ProjectReference Include="..\PetecaAPIImprovement1\PetecaAPIV2.csproj" />
+	<ProjectReference Include="..\\PetecaAPI\PetecaAPIV1.csproj" />
   </ItemGroup>
 
 </Project>

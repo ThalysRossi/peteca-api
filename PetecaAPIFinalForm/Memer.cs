@@ -4,8 +4,8 @@ using System.Text;
 
 namespace PetecaAPIV3
 {
-    public interface IMemer
+    public class Memer
     {
-        public string Shout();
+
     }
 }

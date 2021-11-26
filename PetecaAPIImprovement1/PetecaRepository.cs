@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PetecaAPIImprovement1
+namespace PetecaAPIV2
 {
     public class PetecaRepository : IPetecaRepository
     {

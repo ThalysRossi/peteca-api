@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PetecaAPIFinalForm
+namespace PetecaAPIV3
 {
     public class PetecaService : IPetecaService
     {

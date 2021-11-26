@@ -1,16 +1,12 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace PetecaAPI
+namespace PetecaAPIV1
 {
     public class PetecaRepository
     {
-        
-
         public PetecaRepository()
         {
-
         }
         public bool Save(int idade)
         {

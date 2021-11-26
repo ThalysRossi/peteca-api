@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PetecaAPIFinalForm
+namespace PetecaAPIV3
 {
     public class PetecaRepository : IPetecaRepository
     {

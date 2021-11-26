@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPI-V.1", "PetecaAPI\PetecaAPI-V.1.csproj", "{231A6230-0E28-4039-9308-9B58BCB0597D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPIV1", "PetecaAPI\PetecaAPIV1.csproj", "{231A6230-0E28-4039-9308-9B58BCB0597D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPI-V.2", "PetecaAPIImprovement1\PetecaAPI-V.2.csproj", "{DE7B015A-701C-4E78-ABBB-0189B203A762}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPIV2", "PetecaAPIImprovement1\PetecaAPIV2.csproj", "{DE7B015A-701C-4E78-ABBB-0189B203A762}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPITests", "PetecaAPITests\PetecaAPITests.csproj", "{836A1F29-8AB0-4C09-8224-E375FC699021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetecaAPI-V3", "PetecaAPIFinalForm\PetecaAPI-V3.csproj", "{F40F2DE6-F5EC-4A02-AA0B-03AEF3579958}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPIV3", "PetecaAPIFinalForm\PetecaAPIV3.csproj", "{F40F2DE6-F5EC-4A02-AA0B-03AEF3579958}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
