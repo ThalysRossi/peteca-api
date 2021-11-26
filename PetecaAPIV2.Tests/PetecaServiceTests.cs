@@ -40,7 +40,6 @@ namespace PetecaAPITests
         public void GivenIdWhenPetecaVeiaThenReturnTrue()
         {
             //Arrange
-            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
 
             _repoMock
@@ -53,7 +52,7 @@ namespace PetecaAPITests
                 })
                 .Verifiable();
 
-            var sut = new PetecaService(log, _repoMock.Object);
+            var sut = new PetecaService(_logger, _repoMock.Object);
             //Act
             var result = sut.IsPetecaVeia(id);
 
@@ -65,7 +64,6 @@ namespace PetecaAPITests
         public void GivenIdWhenNotPetecaVeiaThenReturnFalse()
         {
             //Arrange
-            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
 
             _repoMock
@@ -78,7 +76,7 @@ namespace PetecaAPITests
                 })
                 .Verifiable();
 
-            var sut = new PetecaService(log, _repoMock.Object);
+            var sut = new PetecaService(_logger, _repoMock.Object);
             //Act
             var result = sut.IsPetecaVeia(id);
 
@@ -90,7 +88,6 @@ namespace PetecaAPITests
         public void GivenIdWhenPetecaVeiaAndMemeThenReturnTrueAndLogMeme()
         {
             //Arrange
-            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
 
             _repoMock
@@ -103,7 +100,7 @@ namespace PetecaAPITests
                 })
                 .Verifiable();
 
-            var sut = new PetecaService(log, _repoMock.Object);
+            var sut = new PetecaService(_logger, _repoMock.Object);
             
             //Act
             var result = sut.IsPetecaVeia(id);
@@ -116,7 +113,6 @@ namespace PetecaAPITests
         public void GivenIdWhenPetecaVeiaAnd420ThenReturnTrueAndLogMeme()
         {
             //Arrange
-            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
             _repoMock
                 .Setup(r => r.FindPetecaById(id))
@@ -127,7 +123,8 @@ namespace PetecaAPITests
                     Feathers = 5
                 })
                 .Verifiable();
-            var sut = new PetecaService(log, _repoMock.Object);
+            var sut = new PetecaService(_logger, _repoMock.Object);
+            
             //Act
             var result = sut.IsPetecaVeia(id);
 
@@ -139,7 +136,6 @@ namespace PetecaAPITests
         public void GivenPetecasVeiasWhenValidAgeThenReturnList()
         {
             //Arrange
-            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             _repoMock
                 .Setup(r => r.FindPetecaByAge(50, null))
                 .Returns(new List<Peteca>()
@@ -182,7 +178,9 @@ namespace PetecaAPITests
                     },
                 })
                 .Verifiable();
-            var sut = new PetecaService(log, _repoMock.Object);
+
+            var sut = new PetecaService(_logger, _repoMock.Object);
+
             //Act
             var result = sut.GetPetecasVeias();
 
@@ -194,7 +192,6 @@ namespace PetecaAPITests
         public void GivenPetecasWhenValidAgeThenReturnAverageAges()
         {
             //Arrange
-            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
             _repoMock
                 .Setup(r => r.GetPetecas())
@@ -220,8 +217,9 @@ namespace PetecaAPITests
                     }
                 })
                 .Verifiable();
-            var sut = new PetecaService(log, _repoMock.Object);
+            var sut = new PetecaService(_logger, _repoMock.Object);
             var expected = 450;
+
             //Act
             var result = sut.GetAverageAge();
 
