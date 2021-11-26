@@ -2,6 +2,6 @@
 {
     public interface IPetecaFactory
     {
-        Peteca Create(int idade, int pena);
+        Peteca Create(int age, int feather);
     }
 }

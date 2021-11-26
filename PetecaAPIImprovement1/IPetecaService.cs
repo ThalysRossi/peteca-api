@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Shared;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PetecaAPIV2
 {
@@ -8,7 +8,7 @@ namespace PetecaAPIV2
     {
         public bool IsPetecaVeia(Guid id);
         public IList<Peteca> GetPetecasVeias();
-        public int GetIdadeMedia();
-        public bool CreatePeteca(int idade, int penas);
+        public int GetAverageAge();
+        public bool CreatePeteca(int age, int feathers);
     }
 }

@@ -11,7 +11,7 @@ namespace PetecaAPIV3
             throw new NotImplementedException();
         }
 
-        public IList<Peteca> FindPetecaByIdade(int min, int? max)
+        public IList<Peteca> FindPetecaByAge(int min, int? max)
         {
             throw new NotImplementedException();
         }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared;
 
 namespace PetecaAPIV2
 {
@@ -9,6 +10,7 @@ namespace PetecaAPIV2
     {
         private readonly ILogger<PetecaService> _logger;
         private readonly IPetecaRepository _repository;
+        
         public PetecaService(ILogger<PetecaService> logger, IPetecaRepository repository)
         {
             _logger = logger;
@@ -19,16 +21,23 @@ namespace PetecaAPIV2
         {
             var result = _repository.FindPetecaById(id);
 
-            LogPetecaVeiaMeme(result.Idade);
-            
-            return result.Idade >= 50;
+            if (result.Age == 69)
+            {
+                _logger.LogInformation("nice");
+            }
+            else if (result.Age == 420)
+            {
+                _logger.LogInformation("Blaze it");
+            }
+
+            return result.Age >= 50;
         }
 
         public IList<Peteca> GetPetecasVeias()
         {
-            var result = _repository.FindPetecaByIdade(50, null);
+            var result = _repository.FindPetecaByAge(50, null);
 
-            if (result.Where(p => p.Idade == 69).Count() > 2)
+            if (result.Where(p => p.Age == 69).Count() > 2)
             {
                 _logger.LogInformation("Very nice");
             }
@@ -36,41 +45,29 @@ namespace PetecaAPIV2
             return result;
         }
 
-        public int GetIdadeMedia()
+        public int GetAverageAge()
         {
             var result = _repository.GetPetecas();
-            if((int)result.Average(p => p.Idade) > 1346 || (int)result.Average(p => p.Idade) < 1351)
+            if((int)result.Average(p => p.Age) > 1346 || (int)result.Average(p => p.Age) < 1351)
             {
                 _logger.LogInformation("Congratzz, you've got the Plague!");
             }
 
-            return (int)result.Average(p => p.Idade);
+            return (int)result.Average(p => p.Age);
         }
         
-        public bool CreatePeteca(int idade, int penas)
+        public bool CreatePeteca(int age, int feathers)
         {
             var peteca = new Peteca()
             {
                 Id = Guid.NewGuid(),
-                Idade = idade,
-                Pena = penas
+                Age = age,
+                Feathers = feathers
             };
 
             _repository.Save(peteca);
 
             return true;
-        }
-
-        private void LogPetecaVeiaMeme(int idade)
-        {
-            if (idade == 69)
-            {
-                _logger.LogInformation("nice");
-            }
-            else if (idade == 420)
-            {
-                _logger.LogInformation("Blaze it");
-            }
         }
     }
 }

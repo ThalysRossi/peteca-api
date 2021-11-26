@@ -1,58 +1,46 @@
-using AutoFixture;
 using NUnit.Framework;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PetecaAPIV3;
+using PetecaAPIV2;
 using System;
 using System.Collections.Generic;
+using Shared;
 
 namespace PetecaAPITests
 {
-    [TestFixture]
-    public class FinalPetecaServiceTests
+    public class PetecaServiceTests
     {
-        private Fixture fixture;
-        private Mock<ILogger<PetecaService>> _loggerMock;
-        private ILogger<PetecaService> _testLogger;
+        private ILogger<PetecaService> _logger;
         private Mock<IPetecaRepository> _repoMock;
-
+        
         [SetUp]
         public void Setup()
         {
-            fixture = new Fixture();
-            _loggerMock = new Mock<ILogger<PetecaService>>();
             _repoMock = new Mock<IPetecaRepository>();
-            _testLogger = TestLogger.Create<PetecaService>();
+            _logger = TestLogger.Create<PetecaService>();
         }
+
         [Test]
-        public void GivenAgeAndPenaWhenValidThenSave()
+        public void GivenAgeAndFeathersWhenValidThenCreatePetecaSuccessfully()
         {
             _repoMock
                 .Setup(r => r.Save(It.IsAny<Peteca>()))
-                .Returns(true)
                 .Verifiable();
 
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
+            var sut = new PetecaService(_logger, _repoMock.Object);
             var age = 69;
-            var penas = 4;
+            var feathers = 4;
 
-            var result = sut.CreatePeteca(age, penas);
-            var expected = new Peteca()
-            {
-                Id = result.Id,
-                Age = age,
-                Pena = penas
-            };
+            var result = sut.CreatePeteca(age, feathers);
 
-            _repoMock.Verify(r => r.Save(It.Is<Peteca>((arg) => Object.ReferenceEquals(arg, result))));
-            _repoMock.Verify(r => r.Save(It.IsAny<Peteca>()), Times.Once);
-            Assert.AreEqual(expected, result);
+            Assert.IsTrue(result);
         }
 
         [Test]
         public void GivenIdWhenPetecaVeiaThenReturnTrue()
         {
             //Arrange
+            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
 
             _repoMock
@@ -61,11 +49,11 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 50,
-                    Pena = 3
+                    Feathers = 3
                 })
                 .Verifiable();
 
-            var sut = new PetecaService(_testLogger, _repoMock.Object);
+            var sut = new PetecaService(log, _repoMock.Object);
             //Act
             var result = sut.IsPetecaVeia(id);
 
@@ -77,6 +65,7 @@ namespace PetecaAPITests
         public void GivenIdWhenNotPetecaVeiaThenReturnFalse()
         {
             //Arrange
+            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
 
             _repoMock
@@ -85,11 +74,11 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 25,
-                    Pena = 8
+                    Feathers = 8
                 })
                 .Verifiable();
 
-            var sut = new PetecaService(_testLogger, _repoMock.Object);
+            var sut = new PetecaService(log, _repoMock.Object);
             //Act
             var result = sut.IsPetecaVeia(id);
 
@@ -101,6 +90,7 @@ namespace PetecaAPITests
         public void GivenIdWhenPetecaVeiaAndMemeThenReturnTrueAndLogMeme()
         {
             //Arrange
+            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
 
             _repoMock
@@ -109,22 +99,16 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 69,
-                    Pena = 6
+                    Feathers = 6
                 })
                 .Verifiable();
-            _loggerMock
-                .Setup(l => l.LogInformation(It.IsAny<string>()))
-                .Verifiable();
 
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
+            var sut = new PetecaService(log, _repoMock.Object);
+            
             //Act
             var result = sut.IsPetecaVeia(id);
 
             //Assert
-            _loggerMock
-                .Verify(l => l.LogInformation(
-                    It.Is<string>(arg => arg == "nice")
-                    ));
             Assert.IsTrue(result);
         }
 
@@ -132,6 +116,7 @@ namespace PetecaAPITests
         public void GivenIdWhenPetecaVeiaAnd420ThenReturnTrueAndLogMeme()
         {
             //Arrange
+            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
             _repoMock
                 .Setup(r => r.FindPetecaById(id))
@@ -139,10 +124,10 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 420,
-                    Pena = 5
+                    Feathers = 5
                 })
                 .Verifiable();
-            var sut = new PetecaService(_testLogger, _repoMock.Object);
+            var sut = new PetecaService(log, _repoMock.Object);
             //Act
             var result = sut.IsPetecaVeia(id);
 
@@ -150,27 +135,66 @@ namespace PetecaAPITests
             Assert.IsTrue(result);
         }
 
-        //[Test]
-        //[AutoData]
-        //public void GivenPetecasVeiasWhenValidAgeThenReturnList()
-        //{
-        //    //Arrange
-        //    var petecaList = fixture.CreateMany<IList<Peteca>>(50).ToList();
-        //    _repoMock
-        //        .Setup(r => r.FindPetecaByAge(50, null))
-        //        .Returns(petecaList)
-        //        .Verifiable();
-        //    var sut = new PetecaService(_testLogger, _repoMock.Object);
-        //    //Act
-        //    var result = sut.GetPetecasVeias();
+        [Test]
+        public void GivenPetecasVeiasWhenValidAgeThenReturnList()
+        {
+            //Arrange
+            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
+            _repoMock
+                .Setup(r => r.FindPetecaByAge(50, null))
+                .Returns(new List<Peteca>()
+                {
+                    new Peteca()
+                    {
+                        Id = Guid.NewGuid(),
+                        Age = 420,
+                        Feathers = 5
+                    },
+                    new Peteca()
+                    {
+                        Id = Guid.NewGuid(),
+                        Age = 69,
+                        Feathers = 5
+                    },
+                    new Peteca()
+                    {
+                        Id = Guid.NewGuid(),
+                        Age = 69,
+                        Feathers = 7
+                    },
+                    new Peteca()
+                    {
+                        Id = Guid.NewGuid(),
+                        Age = 69,
+                        Feathers = 10
+                    },
+                    new Peteca()
+                    {
+                        Id = Guid.NewGuid(),
+                        Age = 72,
+                        Feathers = 5
+                    },
+                    new Peteca()
+                    {
+                        Id = Guid.NewGuid(),
+                        Age = 25,
+                        Feathers = 5
+                    },
+                })
+                .Verifiable();
+            var sut = new PetecaService(log, _repoMock.Object);
+            //Act
+            var result = sut.GetPetecasVeias();
 
-        //    //Assert
-        //    Assert.IsNotNull(result);
-        //}
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
         [Test]
         public void GivenPetecasWhenValidAgeThenReturnAverageAges()
         {
             //Arrange
+            ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             var id = Guid.NewGuid();
             _repoMock
                 .Setup(r => r.GetPetecas())
@@ -180,59 +204,29 @@ namespace PetecaAPITests
                     {
                         Id = id,
                         Age = 450,
-                        Pena = 5
+                        Feathers = 5
                     },
                     new Peteca()
                     {
                         Id = id,
                         Age = 450,
-                        Pena = 5
+                        Feathers = 5
                     },
                     new Peteca()
                     {
                         Id = id,
                         Age = 450,
-                        Pena = 7
+                        Feathers = 7
                     }
                 })
                 .Verifiable();
-            var sut = new PetecaService(_testLogger, _repoMock.Object);
+            var sut = new PetecaService(log, _repoMock.Object);
             var expected = 450;
             //Act
             var result = sut.GetAverageAge();
 
             //Assert
             Assert.AreEqual(expected, result);
-        }
-        [Test]
-        public void GivenAgeAndPenaWhenInvalidThenReturnNull()
-        {
-            _repoMock
-                .Setup(r => r.Save(It.IsAny<Peteca>()))
-                .Returns(true)
-                .Verifiable();
-
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
-            var age = 69;
-            var penas = 2;
-
-            var result = sut.CreatePeteca(age, penas);
-
-            Assert.IsNull(result);
-        }
-        [Test]
-        public void GivenAgeAndPenaWhenInvalidThenThrow()
-        {
-            _repoMock
-                .Setup(r => r.Save(It.IsAny<Peteca>()))
-                .Throws(new NullReferenceException())
-                .Verifiable();
-
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
-            var age = 69;
-            var penas = 2;
-
-            Assert.Throws<NullReferenceException>(() => sut.CreatePeteca(age, penas));
         }
     }
 }

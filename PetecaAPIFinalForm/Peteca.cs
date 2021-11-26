@@ -6,14 +6,14 @@ namespace PetecaAPIV3
     {
         public static readonly IPetecaFactory Factory = new PetecaFactory();
         public Guid Id { get; set; }
-        public int Idade { get; set; }
-        public int Pena { get; set; }
+        public int Age { get; set; }
+        public int Feathers { get; set; }
 
         public override string ToString()
         {
             return $"{nameof(Id)} {Id} {Environment.NewLine}" +
-                $"{nameof(Idade)} {Idade} {Environment.NewLine}" +
-                $"{nameof(Pena)} {Pena} {Environment.NewLine}";
+                $"{nameof(Age)} {Age} {Environment.NewLine}" +
+                $"{nameof(Feathers)} {Feathers} {Environment.NewLine}";
         }
 
         public override bool Equals(object obj)
@@ -29,9 +29,9 @@ namespace PetecaAPIV3
 
         private class PetecaFactory : IPetecaFactory
         {
-            public Peteca Create(int idade, int pena)
+            public Peteca Create(int age, int feather)
             {
-                if(pena < 3 || pena > 12)
+                if(feather < 3 || feather > 12)
                 {
                     return null;
                 };
@@ -39,8 +39,8 @@ namespace PetecaAPIV3
                 return new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Idade = idade,
-                    Pena = pena
+                    Age = age,
+                    Feathers = feather
                 };
             }
         }

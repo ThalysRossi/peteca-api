@@ -8,7 +8,7 @@ namespace PetecaAPIV3
     {
         public bool IsPetecaVeia(Guid id);
         public IList<Peteca> GetPetecasVeias();
-        public int GetIdadeMedia();
-        public Peteca CreatePeteca(int idade, int penas);
+        public int GetAverageAge();
+        public Peteca CreatePeteca(int age, int feathers);
     }
 }

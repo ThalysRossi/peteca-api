@@ -25,21 +25,28 @@ namespace PetecaAPIV3
             {
                 var result = _repository.FindPetecaById(id);
 
-                LogPetecaVeiaMeme(result.Idade);
+                if (result.Age == 69)
+                {
+                    _logger.LogInformation("nice");
+                }
+                else if (result.Age == 420)
+                {
+                    _logger.LogInformation("Blaze it");
+                }
 
-                return result.Idade >= 50;
+                return result.Age >= 50;
             }
-            catch(ArgumentException)
+            catch(Exception ex)
             {
-                throw new ArgumentException();
+                throw new PetecaServiceException(ex);
             }
         }
 
         public IList<Peteca> GetPetecasVeias()
         {
-            var result = _repository.FindPetecaByIdade(50, null);
+            var result = _repository.FindPetecaByAge(50, null);
 
-            if (result.Where(p => p.Idade == 69).Count() > 2)
+            if (result.Where(p => p.Age == 69).Count() > 2)
             {
                 _logger.LogInformation("Very nice");
             }
@@ -47,21 +54,21 @@ namespace PetecaAPIV3
             return result;
         }
 
-        public int GetIdadeMedia()
+        public int GetAverageAge()
         {
             var result = _repository.GetPetecas();
 
-            if(result.Average(p => p.Idade) > 1346)
+            if(result.Average(p => p.Age) > 1346)
             {
                 _logger.LogInformation("Congratzz, you've got the Plague!");
             }
 
-            return (int)result.Average(p => p.Idade);
+            return (int)result.Average(p => p.Age);
         }
         
-        public Peteca CreatePeteca(int idade, int penas)
+        public Peteca CreatePeteca(int age, int feathers)
         {
-            var peteca = Peteca.Factory.Create(idade, penas);
+            var peteca = Peteca.Factory.Create(age, feathers);
 
             try
             {
@@ -72,18 +79,6 @@ namespace PetecaAPIV3
             catch (NullReferenceException)
             {
                 throw new NullReferenceException();
-            }
-        }
-
-        private void LogPetecaVeiaMeme(int idade)
-        {
-            if (idade == 69)
-            {
-                _logger.LogInformation("nice");
-            }
-            else if (idade == 420)
-            {
-                _logger.LogInformation("Blaze it");
             }
         }
     }

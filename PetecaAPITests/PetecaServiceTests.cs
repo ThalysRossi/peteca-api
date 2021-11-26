@@ -19,7 +19,7 @@ namespace PetecaAPITests
             
         }
         [Test]
-        public void GivenIdadeAndPenaWhenValidThenSave()
+        public void GivenAgeAndPenaWhenValidThenSave()
         {
             _repoMock
                 .Setup(r => r.Save(It.IsAny<Peteca>()))
@@ -27,10 +27,10 @@ namespace PetecaAPITests
                 .Verifiable();
 
             var sut = new PetecaService(_logger.Object, _repoMock.Object);
-            var idade = 69;
+            var age = 69;
             var penas = 4;
 
-            var result = sut.CreatePeteca(idade, penas);
+            var result = sut.CreatePeteca(age, penas);
 
             Assert.IsTrue(result);
         }
@@ -47,7 +47,7 @@ namespace PetecaAPITests
                 .Returns(new Peteca()
                 {
                     Id = id,
-                    Idade = 50,
+                    Age = 50,
                     Pena = 3
                 })
                 .Verifiable();
@@ -72,7 +72,7 @@ namespace PetecaAPITests
                 .Returns(new Peteca()
                 {
                     Id = id,
-                    Idade = 25,
+                    Age = 25,
                     Pena = 8
                 })
                 .Verifiable();
@@ -97,7 +97,7 @@ namespace PetecaAPITests
                 .Returns(new Peteca()
                 {
                     Id = id,
-                    Idade = 69,
+                    Age = 69,
                     Pena = 6
                 })
                 .Verifiable();
@@ -121,7 +121,7 @@ namespace PetecaAPITests
                 .Returns(new Peteca()
                 {
                     Id = id,
-                    Idade = 420,
+                    Age = 420,
                     Pena = 5
                 })
                 .Verifiable();
@@ -139,43 +139,43 @@ namespace PetecaAPITests
             //Arrange
             ILogger<PetecaService> log = TestLogger.Create<PetecaService>();
             _repoMock
-                .Setup(r => r.FindPetecaByIdade(50, null))
+                .Setup(r => r.FindPetecaByAge(50, null))
                 .Returns(new List<Peteca>()
                 {
                     new Peteca()
                     {
                         Id = Guid.NewGuid(),
-                        Idade = 420,
+                        Age = 420,
                         Pena = 5
                     },
                     new Peteca()
                     {
                         Id = Guid.NewGuid(),
-                        Idade = 69,
+                        Age = 69,
                         Pena = 5
                     },
                     new Peteca()
                     {
                         Id = Guid.NewGuid(),
-                        Idade = 69,
+                        Age = 69,
                         Pena = 7
                     },
                     new Peteca()
                     {
                         Id = Guid.NewGuid(),
-                        Idade = 69,
+                        Age = 69,
                         Pena = 10
                     },
                     new Peteca()
                     {
                         Id = Guid.NewGuid(),
-                        Idade = 72,
+                        Age = 72,
                         Pena = 5
                     },
                     new Peteca()
                     {
                         Id = Guid.NewGuid(),
-                        Idade = 25,
+                        Age = 25,
                         Pena = 5
                     },
                 })
@@ -200,19 +200,19 @@ namespace PetecaAPITests
                     new Peteca()
                     {
                         Id = id,
-                        Idade = 450,
+                        Age = 450,
                         Pena = 5
                     },
                     new Peteca()
                     {
                         Id = id,
-                        Idade = 450,
+                        Age = 450,
                         Pena = 5
                     },
                     new Peteca()
                     {
                         Id = id,
-                        Idade = 450,
+                        Age = 450,
                         Pena = 7
                     }
                 })
@@ -220,7 +220,7 @@ namespace PetecaAPITests
             var sut = new PetecaService(log, _repoMock.Object);
             var expected = 450;
             //Act
-            var result = sut.GetIdadeMedia();
+            var result = sut.GetAverageAge();
 
             //Assert
             Assert.AreEqual(expected, result);

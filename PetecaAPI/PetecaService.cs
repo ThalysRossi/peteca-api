@@ -1,51 +1,46 @@
-﻿using System;
+﻿using Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PetecaAPIV1
 {
     public class PetecaService
     {
-        public bool CreatePeteca(int idade)
+        public void CreatePeteca(int age, int feathers)
         {
             PetecaRepository repo = new PetecaRepository();
-            repo.Save(idade);
 
-            return true;
+            repo.Save(new Peteca() { Age = age, Feathers = feathers });
         }
+
         public bool IsPetecaVeia(Guid id)
         {
-            PetecaRepository idade = new PetecaRepository();
-            var result = idade.FindPetecaById(id);
+            PetecaRepository age = new PetecaRepository();
+            var result = age.FindPetecaById(id);
 
-            if(result.Idade == 69)
-            {
-                Console.WriteLine("nice");
-            }
-            else if(result.Idade == 420)
-            {
-                Console.WriteLine("Blaze it!");
-            }
-            return result.Idade > 50;
+            return result.Age > 50;
         }
+
         public IList<Peteca> GetPetecasVeias()
         {
-            PetecaRepository idade = new PetecaRepository();
-            var result = idade.FindPetecaByIdade(50, null);
+            PetecaRepository age = new PetecaRepository();
+            var result = age.FindPetecaByAge(50, null);
 
-            if(result.Where(p => p.Idade == 69).Count() > 2)
+            if(result.Where(p => p.Age == 69).Count() > 2)
             {
                 Console.WriteLine("Very nice");
             }
             return result;
         }
-        public int GetIdadeMedia()
-        {
-            PetecaRepository idade = new PetecaRepository();
-            var result = idade.GetPetecas();
 
-            return (int)result.Average(p => p.Idade);
+        public int GetAverageAge()
+        {
+            PetecaRepository age = new PetecaRepository();
+            
+            var result = age.GetPetecas();
+
+            return (int)result.Average(p => p.Age);
         }
     }
 }

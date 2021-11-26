@@ -1,28 +1,30 @@
 ﻿using NUnit.Framework;
+using Shared;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PetecaAPIV1;
+using System.Linq;
 
-namespace PetecaAPITests
+namespace PetecaAPIV1.Tests
 {
-    public class BrokenTests
+    public class PetecaServiceTests
     {
         [Test]
-        public void GivenIdadeWhenValidThenSaveAndReturnTrue()
+        public void GivenAgeAndFeathersWhenValidThenCreatePetecaSuccessfully()
         {
             //Arrange
             var sut = new PetecaService();
-            var idade = 50;
+            var age = 50;
+            var feathers = 5;
 
             //Act
-            var result = sut.CreatePeteca(idade);
+            sut.CreatePeteca(age, feathers);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.Pass();
         }
+
         [Test]
-        public void GivenIdWhenValidThenReturnTrue()
+        public void GivenIdWhenPetecaVeiaThenReturnTrue()
         {
             //Arrange
             var sut = new PetecaService();
@@ -33,8 +35,35 @@ namespace PetecaAPITests
             //Assert
             Assert.IsTrue(result);
         }
+
         [Test]
-        public void GivenNoParamsReturnListWithAllPetecasVeias()
+        public void GivenIdWhenNotPetecaVeiaThenReturnFalse()
+        {
+            //Arrange
+            var sut = new PetecaService();
+
+            //Act
+            var result = sut.IsPetecaVeia(Guid.NewGuid());
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void GivenNoPetecasVeiasReturnEmptyList()
+        {
+            //Arrange
+            var sut = new PetecaService();
+
+            //Act
+            var result = sut.GetPetecasVeias();
+
+            //Assert
+            Assert.IsFalse(result.Any());
+        }
+
+        [Test]
+        public void GivenPetecasVeiasExistReturnListWithAllExistingPetecasVeias()
         {
             //Arrange
             var sut = new PetecaService();
@@ -46,50 +75,61 @@ namespace PetecaAPITests
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Idade = 420
+                    Age = 420
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Idade = 69
+                    Age = 69
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Idade = 69
+                    Age = 69
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Idade = 69
+                    Age = 69
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Idade = 72
+                    Age = 72
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Idade = 25
+                    Age = 25
                 }
             };
             
             //Assert
             CollectionAssert.AreEqual(result, expected);
         }
+
         [Test]
-        public void GivenNoParamsReturnIdadeMedia()
+        public void GivenPetecasExistReturnsAverageAge()
         {
             //Arrange
             var sut = new PetecaService();
 
             //Act
-            var result = sut.GetIdadeMedia();
+            var result = sut.GetAverageAge();
             var expected = 47;
 
             //Assert
             Assert.AreEqual(result, expected);
+        }
+
+        [Test]
+        public void GivenUnexpectedErrorThrowsPetecaServiceException()
+        {
+            //Arrange
+            var sut = new PetecaService();
+
+            //Act / Assert
+            Assert.Throws<PetecaServiceException>(() => sut.CreatePeteca(101, 5));
         }
     }
 }

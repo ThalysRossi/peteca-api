@@ -1,15 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPIV1", "PetecaAPI\PetecaAPIV1.csproj", "{231A6230-0E28-4039-9308-9B58BCB0597D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPIV2", "PetecaAPIImprovement1\PetecaAPIV2.csproj", "{DE7B015A-701C-4E78-ABBB-0189B203A762}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPITests", "PetecaAPITests\PetecaAPITests.csproj", "{836A1F29-8AB0-4C09-8224-E375FC699021}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetecaAPIV3", "PetecaAPIFinalForm\PetecaAPIV3.csproj", "{F40F2DE6-F5EC-4A02-AA0B-03AEF3579958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetecaAPIV1.Tests", "PetecaAPIV1.Tests\PetecaAPIV1.Tests.csproj", "{499228D0-9305-42B4-AC81-5305CC5657E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetecaAPIV2.Tests", "PetecaAPIV2.Tests\PetecaAPIV2.Tests.csproj", "{A284EBD9-AF02-4098-A503-E2210355326C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetecaAPIV3.Tests", "PetecaAPIV3.Tests\PetecaAPIV3.Tests.csproj", "{9F5C43A5-B227-416F-9BA6-97806808ACCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{15BB51D0-2ADC-43B0-AF11-72A9B94C6DC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +31,26 @@ Global
 		{DE7B015A-701C-4E78-ABBB-0189B203A762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE7B015A-701C-4E78-ABBB-0189B203A762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE7B015A-701C-4E78-ABBB-0189B203A762}.Release|Any CPU.Build.0 = Release|Any CPU
-		{836A1F29-8AB0-4C09-8224-E375FC699021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{836A1F29-8AB0-4C09-8224-E375FC699021}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{836A1F29-8AB0-4C09-8224-E375FC699021}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{836A1F29-8AB0-4C09-8224-E375FC699021}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F40F2DE6-F5EC-4A02-AA0B-03AEF3579958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F40F2DE6-F5EC-4A02-AA0B-03AEF3579958}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F40F2DE6-F5EC-4A02-AA0B-03AEF3579958}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F40F2DE6-F5EC-4A02-AA0B-03AEF3579958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499228D0-9305-42B4-AC81-5305CC5657E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499228D0-9305-42B4-AC81-5305CC5657E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499228D0-9305-42B4-AC81-5305CC5657E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499228D0-9305-42B4-AC81-5305CC5657E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A284EBD9-AF02-4098-A503-E2210355326C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A284EBD9-AF02-4098-A503-E2210355326C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A284EBD9-AF02-4098-A503-E2210355326C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A284EBD9-AF02-4098-A503-E2210355326C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F5C43A5-B227-416F-9BA6-97806808ACCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F5C43A5-B227-416F-9BA6-97806808ACCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F5C43A5-B227-416F-9BA6-97806808ACCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F5C43A5-B227-416F-9BA6-97806808ACCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15BB51D0-2ADC-43B0-AF11-72A9B94C6DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15BB51D0-2ADC-43B0-AF11-72A9B94C6DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15BB51D0-2ADC-43B0-AF11-72A9B94C6DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15BB51D0-2ADC-43B0-AF11-72A9B94C6DC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

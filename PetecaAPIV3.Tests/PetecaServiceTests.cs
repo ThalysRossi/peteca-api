@@ -6,10 +6,10 @@ using PetecaAPIV3;
 using System;
 using System.Collections.Generic;
 
-namespace PetecaAPITests
+namespace PetecaAPIV3.Tests
 {
     [TestFixture]
-    public class FinalPetecaServiceTests
+    public class PetecaServiceTests
     {
         private Fixture fixture;
         private Mock<ILogger<PetecaService>> _loggerMock;
@@ -25,7 +25,7 @@ namespace PetecaAPITests
             _testLogger = TestLogger.Create<PetecaService>();
         }
         [Test]
-        public void GivenAgeAndPenaWhenValidThenSave()
+        public void GivenAgeAndFeathersWhenValidThenSave()
         {
             _repoMock
                 .Setup(r => r.Save(It.IsAny<Peteca>()))
@@ -34,14 +34,14 @@ namespace PetecaAPITests
 
             var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
             var age = 69;
-            var penas = 4;
+            var feathers = 4;
 
-            var result = sut.CreatePeteca(age, penas);
+            var result = sut.CreatePeteca(age, feathers);
             var expected = new Peteca()
             {
                 Id = result.Id,
                 Age = age,
-                Pena = penas
+                Feathers = feathers
             };
 
             _repoMock.Verify(r => r.Save(It.Is<Peteca>((arg) => Object.ReferenceEquals(arg, result))));
@@ -61,7 +61,7 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 50,
-                    Pena = 3
+                    Feathers = 3
                 })
                 .Verifiable();
 
@@ -85,7 +85,7 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 25,
-                    Pena = 8
+                    Feathers = 8
                 })
                 .Verifiable();
 
@@ -109,7 +109,7 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 69,
-                    Pena = 6
+                    Feathers = 6
                 })
                 .Verifiable();
             _loggerMock
@@ -139,7 +139,7 @@ namespace PetecaAPITests
                 {
                     Id = id,
                     Age = 420,
-                    Pena = 5
+                    Feathers = 5
                 })
                 .Verifiable();
             var sut = new PetecaService(_testLogger, _repoMock.Object);
@@ -180,19 +180,19 @@ namespace PetecaAPITests
                     {
                         Id = id,
                         Age = 450,
-                        Pena = 5
+                        Feathers = 5
                     },
                     new Peteca()
                     {
                         Id = id,
                         Age = 450,
-                        Pena = 5
+                        Feathers = 5
                     },
                     new Peteca()
                     {
                         Id = id,
                         Age = 450,
-                        Pena = 7
+                        Feathers = 7
                     }
                 })
                 .Verifiable();
@@ -205,7 +205,7 @@ namespace PetecaAPITests
             Assert.AreEqual(expected, result);
         }
         [Test]
-        public void GivenAgeAndPenaWhenInvalidThenReturnNull()
+        public void GivenAgeAndFeathersWhenInvalidThenReturnNull()
         {
             _repoMock
                 .Setup(r => r.Save(It.IsAny<Peteca>()))
@@ -214,14 +214,14 @@ namespace PetecaAPITests
 
             var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
             var age = 69;
-            var penas = 2;
+            var feathers = 2;
 
-            var result = sut.CreatePeteca(age, penas);
+            var result = sut.CreatePeteca(age, feathers);
 
             Assert.IsNull(result);
         }
         [Test]
-        public void GivenAgeAndPenaWhenInvalidThenThrow()
+        public void GivenAgeAndFeathersWhenInvalidThenThrow()
         {
             _repoMock
                 .Setup(r => r.Save(It.IsAny<Peteca>()))
@@ -230,9 +230,9 @@ namespace PetecaAPITests
 
             var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
             var age = 69;
-            var penas = 2;
+            var feathers = 2;
 
-            Assert.Throws<NullReferenceException>(() => sut.CreatePeteca(age, penas));
+            Assert.Throws<NullReferenceException>(() => sut.CreatePeteca(age, feathers));
         }
     }
 }
