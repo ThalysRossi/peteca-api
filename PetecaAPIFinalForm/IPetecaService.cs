@@ -1,6 +1,6 @@
 ﻿using System;
+using Shared;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PetecaAPIV3
 {

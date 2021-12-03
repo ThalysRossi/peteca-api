@@ -1,10 +1,12 @@
 using AutoFixture;
+using AutoFixture.NUnit3;
 using NUnit.Framework;
 using Microsoft.Extensions.Logging;
 using Moq;
-using PetecaAPIV3;
+using Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PetecaAPIV3.Tests
 {
@@ -12,27 +14,26 @@ namespace PetecaAPIV3.Tests
     public class PetecaServiceTests
     {
         private Fixture fixture;
-        private Mock<ILogger<PetecaService>> _loggerMock;
         private ILogger<PetecaService> _testLogger;
         private Mock<IPetecaRepository> _repoMock;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             fixture = new Fixture();
-            _loggerMock = new Mock<ILogger<PetecaService>>();
             _repoMock = new Mock<IPetecaRepository>();
             _testLogger = TestLogger.Create<PetecaService>();
         }
+
         [Test]
-        public void GivenAgeAndFeathersWhenValidThenSave()
+        public void GivenAgeAndFeathersWhenValidThenCreatePetecaSuccessfully()
         {
             _repoMock
                 .Setup(r => r.Save(It.IsAny<Peteca>()))
                 .Returns(true)
                 .Verifiable();
 
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
+            var sut = new PetecaService(_testLogger, _repoMock.Object);
             var age = 69;
             var feathers = 4;
 
@@ -45,181 +46,180 @@ namespace PetecaAPIV3.Tests
             };
 
             _repoMock.Verify(r => r.Save(It.Is<Peteca>((arg) => Object.ReferenceEquals(arg, result))));
-            _repoMock.Verify(r => r.Save(It.IsAny<Peteca>()), Times.Once);
-            Assert.AreEqual(expected, result);
+            Assert.That(expected, Is.EqualTo(result).And.Not.Null);
         }
 
         [Test]
         public void GivenIdWhenPetecaVeiaThenReturnTrue()
         {
             //Arrange
-            var id = Guid.NewGuid();
+            var petecaVeiaFixture = new Fixture();
+            petecaVeiaFixture.Customize<Peteca>(ob => ob
+                .With(p => p.Age, () => new Random().Next(50, 100))
+                );
+            var peteca = petecaVeiaFixture.Create<Peteca>();
 
             _repoMock
-                .Setup(r => r.FindPetecaById(id))
-                .Returns(new Peteca()
-                {
-                    Id = id,
-                    Age = 50,
-                    Feathers = 3
-                })
+                .Setup(r => r.FindPetecaById(peteca.Id))
+                .Returns(peteca)
                 .Verifiable();
-
+            
             var sut = new PetecaService(_testLogger, _repoMock.Object);
+
             //Act
-            var result = sut.IsPetecaVeia(id);
+            var result = sut.IsPetecaVeia(peteca.Id);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
         public void GivenIdWhenNotPetecaVeiaThenReturnFalse()
         {
             //Arrange
-            var id = Guid.NewGuid();
-
+            fixture.Customize<Peteca>(ob => ob
+                .With(p => p.Age, () => new Random().Next(1, 49))
+                );
+            var peteca = fixture.Create<Peteca>();
             _repoMock
-                .Setup(r => r.FindPetecaById(id))
-                .Returns(new Peteca()
-                {
-                    Id = id,
-                    Age = 25,
-                    Feathers = 8
-                })
+                .Setup(r => r.FindPetecaById(peteca.Id))
+                .Returns(peteca)
                 .Verifiable();
 
             var sut = new PetecaService(_testLogger, _repoMock.Object);
             //Act
-            var result = sut.IsPetecaVeia(id);
+            var result = sut.IsPetecaVeia(peteca.Id);
 
             //Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
         public void GivenIdWhenPetecaVeiaAndMemeThenReturnTrueAndLogMeme()
         {
             //Arrange
-            var id = Guid.NewGuid();
-
+            fixture.Customize<Peteca>(ob => ob
+               .With(p => p.Age, () => 69)
+            );
+            var peteca = fixture.Create<Peteca>();
             _repoMock
-                .Setup(r => r.FindPetecaById(id))
-                .Returns(new Peteca()
-                {
-                    Id = id,
-                    Age = 69,
-                    Feathers = 6
-                })
-                .Verifiable();
-            _loggerMock
-                .Setup(l => l.LogInformation(It.IsAny<string>()))
+                .Setup(r => r.FindPetecaById(peteca.Id))
+                .Returns(peteca)
                 .Verifiable();
 
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
+            var sut = new PetecaService(_testLogger, _repoMock.Object);
             //Act
-            var result = sut.IsPetecaVeia(id);
+            var result = sut.IsPetecaVeia(peteca.Id);
 
             //Assert
-            _loggerMock
-                .Verify(l => l.LogInformation(
-                    It.Is<string>(arg => arg == "nice")
-                    ));
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
         public void GivenIdWhenPetecaVeiaAnd420ThenReturnTrueAndLogMeme()
         {
             //Arrange
-            var id = Guid.NewGuid();
+            fixture.Customize<Peteca>(ob => ob
+                .With(p => p.Age, () => 420)
+            );
+            var peteca = fixture.Create<Peteca>();
+
             _repoMock
-                .Setup(r => r.FindPetecaById(id))
-                .Returns(new Peteca()
-                {
-                    Id = id,
-                    Age = 420,
-                    Feathers = 5
-                })
+                .Setup(r => r.FindPetecaById(peteca.Id))
+                .Returns(peteca)
                 .Verifiable();
+
             var sut = new PetecaService(_testLogger, _repoMock.Object);
+
             //Act
-            var result = sut.IsPetecaVeia(id);
+            var result = sut.IsPetecaVeia(peteca.Id);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
-        //[Test]
-        //[AutoData]
-        //public void GivenPetecasVeiasWhenValidAgeThenReturnList()
-        //{
-        //    //Arrange
-        //    var petecaList = fixture.CreateMany<IList<Peteca>>(50).ToList();
-        //    _repoMock
-        //        .Setup(r => r.FindPetecaByAge(50, null))
-        //        .Returns(petecaList)
-        //        .Verifiable();
-        //    var sut = new PetecaService(_testLogger, _repoMock.Object);
-        //    //Act
-        //    var result = sut.GetPetecasVeias();
-
-        //    //Assert
-        //    Assert.IsNotNull(result);
-        //}
         [Test]
-        public void GivenPetecasWhenValidAgeThenReturnAverageAges()
+        public void GivenPetecasWhenValidAgeThenReturnAverageAge()
         {
+            var petecaList = fixture.CreateMany<Peteca>(100).ToList();
             //Arrange
-            var id = Guid.NewGuid();
             _repoMock
                 .Setup(r => r.GetPetecas())
-                .Returns(new List<Peteca>()
-                {
-                    new Peteca()
-                    {
-                        Id = id,
-                        Age = 450,
-                        Feathers = 5
-                    },
-                    new Peteca()
-                    {
-                        Id = id,
-                        Age = 450,
-                        Feathers = 5
-                    },
-                    new Peteca()
-                    {
-                        Id = id,
-                        Age = 450,
-                        Feathers = 7
-                    }
-                })
+                .Returns(petecaList)
                 .Verifiable();
+
             var sut = new PetecaService(_testLogger, _repoMock.Object);
-            var expected = 450;
+
+            var expected = (int)petecaList.Average(p => p.Age);
+
             //Act
             var result = sut.GetAverageAge();
 
             //Assert
-            Assert.AreEqual(expected, result);
+            Assert.That(expected, Is.EqualTo(result));
         }
+
         [Test]
-        public void GivenAgeAndFeathersWhenInvalidThenReturnNull()
+        public void GivenPetecasVeiasWhenValidAgeThenReturnList()
         {
+            //Arrange
+            var petecaList = fixture.CreateMany<Peteca>(50).ToList();
+
             _repoMock
-                .Setup(r => r.Save(It.IsAny<Peteca>()))
-                .Returns(true)
+                .Setup(r => r.FindPetecaByAge(50, null))
+                .Returns(petecaList.Where(p => p.Age > 50).ToList())
+                .Verifiable();
+            var sut = new PetecaService(_testLogger, _repoMock.Object);
+
+            var expected = petecaList.Where(p => p.Age > 50);
+
+            //Act
+            var result = sut.GetPetecasVeias();
+
+            //Assert            
+            CollectionAssert.AreEqual(result, expected);
+        }
+
+        [Test]
+        public void GivenLotsOfPetecasWhenValidAgeThenReturnAverageAge()
+        {
+            //Arrange
+            var petecaList = fixture.CreateMany<Peteca>(50).ToList();
+
+            _repoMock
+                .Setup(r => r.GetPetecas())
+                .Returns(petecaList)
                 .Verifiable();
 
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
-            var age = 69;
-            var feathers = 2;
+            var sut = new PetecaService(_testLogger, _repoMock.Object);
 
-            var result = sut.CreatePeteca(age, feathers);
+            var expected = (int)petecaList.Average(p => p.Age);
 
-            Assert.IsNull(result);
+            //Act
+            var result = sut.GetAverageAge();
+
+            //Assert
+            Assert.That(result, Is.EqualTo(expected));
         }
+
+        //[Test]
+        //public void GivenAgeAndFeathersWhenInvalidThenReturnNull()
+        //{
+        //    _repoMock
+        //        .Setup(r => r.Save(It.IsAny<Peteca>()))
+        //        .Returns(false)
+        //        .Verifiable();
+
+        //    var sut = new PetecaService(_testLogger, _repoMock.Object);
+        //    var age = 69;
+        //    var feathers = 2;
+
+        //    var result = sut.CreatePeteca(age, feathers);
+
+        //    _repoMock.Verify(r => r.Save(It.IsAny<Peteca>()), Times.Never);
+        //    Assert.IsNull(result);
+        //}
+
         [Test]
         public void GivenAgeAndFeathersWhenInvalidThenThrow()
         {
@@ -228,7 +228,7 @@ namespace PetecaAPIV3.Tests
                 .Throws(new NullReferenceException())
                 .Verifiable();
 
-            var sut = new PetecaService(_loggerMock.Object, _repoMock.Object);
+            var sut = new PetecaService(_testLogger, _repoMock.Object);
             var age = 69;
             var feathers = 2;
 

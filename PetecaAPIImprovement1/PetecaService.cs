@@ -48,7 +48,7 @@ namespace PetecaAPIV2
         public int GetAverageAge()
         {
             var result = _repository.GetPetecas();
-            if((int)result.Average(p => p.Age) > 1346 || (int)result.Average(p => p.Age) < 1351)
+            if (result.Sum(p => p.Age) >= 1346)
             {
                 _logger.LogInformation("Congratzz, you've got the Plague!");
             }

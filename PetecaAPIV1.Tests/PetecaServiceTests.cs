@@ -131,5 +131,17 @@ namespace PetecaAPIV1.Tests
             //Act / Assert
             Assert.Throws<PetecaServiceException>(() => sut.CreatePeteca(101, 5));
         }
+
+        [Test]
+        public void GivenAgeAndFeathersWhenInvalidThenThrow()
+        {
+            //Arrange
+            var sut = new PetecaService();
+            var age = 69;
+            var feathers = 2;
+
+            //Act / Assert
+            Assert.Throws<NullReferenceException>(() => sut.CreatePeteca(age, feathers));
+        }
     }
 }
