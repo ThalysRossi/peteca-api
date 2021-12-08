@@ -56,7 +56,7 @@ namespace PetecaAPIV2
             return (int)result.Average(p => p.Age);
         }
         
-        public bool CreatePeteca(int age, int feathers)
+        public Peteca CreatePeteca(int age, int feathers)
         {
             var peteca = new Peteca()
             {
@@ -67,7 +67,7 @@ namespace PetecaAPIV2
 
             _repository.Save(peteca);
 
-            return true;
+            return peteca;
         }
     }
 }

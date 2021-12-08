@@ -35,7 +35,7 @@ namespace PetecaAPIV3
                 {
                     _logger.LogInformation("Blaze it");
                 }
-
+                _logger.LogInformation(result.Age.ToString());
                 return result.Age >= 50;
             }
             catch(Exception ex)

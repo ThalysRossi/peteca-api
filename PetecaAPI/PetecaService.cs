@@ -7,11 +7,18 @@ namespace PetecaAPIV1
 {
     public class PetecaService
     {
-        public void CreatePeteca(int age, int feathers)
+        public Peteca CreatePeteca(int age, int feathers)
         {
             PetecaRepository repo = new PetecaRepository();
 
-            repo.Save(new Peteca() { Age = age, Feathers = feathers });
+            var peteca = new Peteca()
+            {
+                Age = age,
+                Feathers = feathers
+            };
+            repo.Save(peteca);
+
+            return peteca;
         }
 
         public bool IsPetecaVeia(Guid id)

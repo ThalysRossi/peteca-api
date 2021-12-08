@@ -8,8 +8,9 @@ namespace Shared
         public PetecaRepository()
         {
         }
-        public void Save(Peteca peteca)
-        {            
+        public bool Save(Peteca peteca)
+        {
+            return true;
         }
 
         public Peteca FindPetecaById(Guid id)

@@ -23,17 +23,29 @@ namespace PetecaAPITests
         [Test]
         public void GivenAgeAndFeathersWhenValidThenCreatePetecaSuccessfully()
         {
+            //Arrange
             _repoMock
                 .Setup(r => r.Save(It.IsAny<Peteca>()))
+                .Returns(true)
                 .Verifiable();
 
             var sut = new PetecaService(_logger, _repoMock.Object);
             var age = 69;
             var feathers = 4;
 
+            //Act
             var result = sut.CreatePeteca(age, feathers);
 
-            Assert.IsTrue(result);
+            var expected = new Peteca()
+            {
+                Id = result.Id,
+                Age = age,
+                Feathers = feathers
+            };
+
+            //Assert
+            _repoMock.Verify(r => r.Save(It.Is<Peteca>((arg) => Object.ReferenceEquals(arg, result))));
+            Assert.AreEqual(result, expected);
         }
 
         [Test]
@@ -170,22 +182,69 @@ namespace PetecaAPITests
                         Age = 72,
                         Feathers = 5
                     },
-                    new Peteca()
-                    {
-                        Id = Guid.NewGuid(),
-                        Age = 25,
-                        Feathers = 5
-                    },
                 })
                 .Verifiable();
 
             var sut = new PetecaService(_logger, _repoMock.Object);
 
+            var expected = new List<Peteca>()
+            {
+                new Peteca()
+                {
+                    Id = Guid.NewGuid(),
+                    Age = 420,
+                    Feathers = 5
+                },
+                new Peteca()
+                {
+                    Id = Guid.NewGuid(),
+                    Age = 69,
+                    Feathers = 5
+                },
+                new Peteca()
+                {
+                    Id = Guid.NewGuid(),
+                    Age = 69,
+                    Feathers = 7
+                },
+                new Peteca()
+                {
+                    Id = Guid.NewGuid(),
+                    Age = 69,
+                    Feathers = 10
+                },
+                new Peteca()
+                {
+                    Id = Guid.NewGuid(),
+                    Age = 72,
+                    Feathers = 5
+                }
+            };
+
             //Act
             var result = sut.GetPetecasVeias();
 
             //Assert
-            Assert.IsNotNull(result);
+            CollectionAssert.AreEqual(result, expected);
+        }
+
+        [Test]
+        public void GivenNoPetecasVeiasReturnEmptyList()
+        {
+            //Arrange
+            _repoMock
+                .Setup(r => r.FindPetecaByAge(50, null))
+                .Returns(new List<Peteca>())
+                .Verifiable();
+            var sut = new PetecaService(_logger, _repoMock.Object);
+
+            var expected = new List<Peteca>();
+
+            //Act
+            var result = sut.GetPetecasVeias();
+
+            //Assert
+            CollectionAssert.AreEqual(result, expected);
         }
 
         [Test]

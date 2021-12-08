@@ -8,6 +8,6 @@ namespace Shared
         public Peteca FindPetecaById(Guid id);
         public IList<Peteca> FindPetecaByAge(int min, int? max);
         public IList<Peteca> GetPetecas();
-        public void Save(Peteca peteca);
+        public bool Save(Peteca peteca);
     }
 }

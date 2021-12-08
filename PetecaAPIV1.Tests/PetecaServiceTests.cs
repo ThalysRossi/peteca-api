@@ -17,10 +17,17 @@ namespace PetecaAPIV1.Tests
             var feathers = 5;
 
             //Act
-            sut.CreatePeteca(age, feathers);
+            var result = sut.CreatePeteca(age, feathers);
+
+            var expected = new Peteca()
+            {
+                Id = result.Id,
+                Age = 50,
+                Feathers = 5
+            };
 
             //Assert
-            Assert.Pass();
+            Assert.AreEqual(result, expected);
         }
 
         [Test]
@@ -75,32 +82,32 @@ namespace PetecaAPIV1.Tests
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Age = 420
+                    Age = 420,
+                    Feathers = 3
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Age = 69
+                    Age = 69,
+                    Feathers = 7
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Age = 69
+                    Age = 69,
+                    Feathers = 4
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Age = 69
+                    Age = 69,
+                    Feathers = 8
                 },
                 new Peteca()
                 {
                     Id = Guid.NewGuid(),
-                    Age = 72
-                },
-                new Peteca()
-                {
-                    Id = Guid.NewGuid(),
-                    Age = 25
+                    Age = 72,
+                    Feathers = 10
                 }
             };
             
